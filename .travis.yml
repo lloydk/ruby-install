@@ -1,12 +1,30 @@
 ---
-language: python
-python: "2.7"
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq python-apt python-pycurl
-install:
-  - pip install ansible==2.3.0
+services: docker
+
+env:
+  # Package install on all OSes.
+  - distro: ubuntu1604
+    ruby_install_version: 0.6.1
+    playbook: test.yml
+
 script:
-  - echo localhost > inventory
-  - ansible-playbook --syntax-check -i inventory test.yml
-  - ansible-playbook -i inventory test.yml --connection=local --sudo
+  # Configure test script so we can run extra tests after playbook is run.
+  - export container_id=$(date +%s)
+  - export cleanup=false
+
+  # Download test shim.
+  - echo ${PWD}
+  - ls -l
+  - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/geerlingguy/73ef1e5ee45d8694570f334be385e181/raw/
+  - chmod +x ${PWD}/tests/test.sh
+
+  # Run tests.
+  - ${PWD}/tests/test.sh
+
+  # Make sure ruby-install is installed and at the correct version.
+  - 'docker exec --tty ${container_id} env TERM=xterm ruby-install --version'
+  - 'docker exec --tty ${container_id} env TERM=xterm ruby-install --version | grep -qF ${ruby_install_version}'
+
+after_failure:
+  - 'docker exec --tty ${container_id} env TERM=xterm which ruby-install'
+  - 'docker exec --tty ${container_id} env TERM=xterm ruby-install --version'

@@ -1,5 +1,11 @@
 ---
+- name: Update apt cache.
+  apt: update_cache=yes cache_valid_time=86400
 
+- name: Install required packages
+  apt: "name={{ item }} state=present"
+  with_items:
+    - make
 
 - name: Create working directory
   file:
@@ -39,6 +45,7 @@
   shell: ruby-install --version | awk '{ print $2 }'
   ignore_errors: yes
   register: installed_ruby_install_version
+  changed_when: False
 
 - name: Create ansible facts directory
   become: true
