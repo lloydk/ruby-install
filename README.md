@@ -1,4 +1,4 @@
-InnoHub Ansible : ruby-install [![Build Status](https://travis-ci.org/innohub-ansible/ruby-install.svg?branch=master)](https://travis-ci.org/innohub-ansible/ruby-install)
+InnoHub Ansible : ruby-install [![Build Status](https://travis-ci.org/lloydk/ruby-install.svg?branch=master)](https://travis-ci.org/lloydk/ruby-install)
 ==========================================================================================================================================================================
 
 Installs ruby-install.
@@ -6,7 +6,7 @@ Installs ruby-install.
 Requirements
 ------------
 
-Tested ONLY on Ubuntu 14.04 Trusty.
+Tested ONLY on Ubuntu 16.04 Xenial.
 
 Role Variables
 --------------
