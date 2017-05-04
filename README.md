@@ -11,7 +11,7 @@ Tested ONLY on Ubuntu 14.04 Trusty.
 Role Variables
 --------------
 
-ruby_install_version : defaults to '0.5.0'
+ruby_install_version : defaults to '0.6.1'
 
 Dependencies
 ------------
