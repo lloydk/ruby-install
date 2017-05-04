@@ -1,12 +1,25 @@
 ---
-language: python
-python: "2.7"
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq python-apt python-pycurl
-install:
-  - pip install ansible==2.3.0
+services: docker
+
+env:
+  # Package install on all OSes.
+  - distro: ubuntu1604
+    playbook: test.yml
+    ruby_version: 2.3.1
+    ruby_path_prefix: /usr
+  - distro: ubuntu1404
+    playbook: test.yml
+    ruby_version: 1.9.3
+    ruby_path_prefix: /usr
+
 script:
-  - echo localhost > inventory
-  - ansible-playbook --syntax-check -i inventory test.yml
-  - ansible-playbook -i inventory test.yml --connection=local --sudo
+  # Configure test script so we can run extra tests after playbook is run.
+  - export container_id=$(date +%s)
+  - export cleanup=false
+
+  # Download test shim.
+  - wget -O ${PWD}/tests/test.sh https://gist.githubusercontent.com/geerlingguy/73ef1e5ee45d8694570f334be385e181/raw/
+  - chmod +x ${PWD}/tests/test.sh
+
+  # Run tests.
+  - ${PWD}/tests/test.sh
