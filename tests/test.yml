@@ -1,5 +1,4 @@
 - hosts: all
-  vars_files:
-    - defaults/main.yml
-  tasks:
-    - include: tasks/main.yml
+  roles:
+    - role_under_test
+
