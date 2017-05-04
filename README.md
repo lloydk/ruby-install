@@ -25,7 +25,7 @@ Example Playbook:
 
     - hosts: servers
       roles:
-         - { role: innohub-ansible.ruby-install }
+         - { role: lloydk.ruby-install }
 
 Example Role:
 
